@@ -26,7 +26,7 @@
 
 import os
 import subprocess
-from libqtile import bar, layout, widget, hook
+from libqtile import bar, layout, widget, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -72,7 +72,7 @@ keys = [
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawn("dmenu_run -i -nb '#3d3d56' -sb '#6a5996' -nf '#ffffff' -sf '#ffffff' -fn 'Ubuntu-14' -b"), desc="Spawn dmenu"),
+    Key([mod], "r", lazy.spawn("dmenu_run -i -nb '#6a5996' -sb '#b6cb8f' -nf '#ffffff' -sf '#000000' -fn 'Ubuntu-12' -b"), desc="Spawn dmenu"),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
 ]
 
@@ -116,21 +116,28 @@ for i in groups:
 
 
 # Colors
-colors = list(["#ffffff", #background black
-          "#6a5996", #pantone 18-3838 Ultra Violet 1,2,3
-          "#b6cb8f", #pantone 13-0324 Lettuce Green 1
-          "#c6bbce", #pantone 13-3805 Orchid Hush 1
-          "#edc8dc", #pantone 13-3207 Cherry Blossom 1
+colors = list(["#000000", #background black
+          "#6a5996", #pantone 18-3838 Ultra Violet 1,2,3 background
+          "#b6cb8f", #pantone 13-0324 Lettuce Green 1 focus border
+          "#c6bbce", #pantone 13-3805 Orchid Hush 1 normal border
+          "#edc8dc", #pantone 13-3207 Cherry Blossom 1 
           "#e3e091", #pantone 11-0622 Yellow Iris 2
           "#edada6", #pantone 14-1324 Peach Bud 2
-          "#3d3d56", #pantone 19-3830 Astral Aura 2,3
-          "#e9e2dd" #pantone 11-0604 Gardenia 3
+          "#3d3d56", #pantone 19-3830 Astral Aura 2,3 bar focus 
+          "#e9e2dd", #pantone 11-0604 Gardenia 3
+          "#ffffff" #white
           ])
 
 gap = 8
 borderWith = 4
 
 layouts = [
+    layout.MonadTall(border_focus=colors[2],
+                     border_normal=colors[4],
+                     border_width=borderWith,
+                     margin=gap,
+                     single_border_with=borderWith,
+                     single_margin=gap),
     layout.Columns(border_focus=colors[2],
                    border_normal=colors[4],
                    border_width=borderWith,
@@ -144,12 +151,6 @@ layouts = [
                     border_width=borderWith),
     #layout.Bsp(),
     # layout.Matrix(),
-    layout.MonadTall(border_focus=colors[2],
-                     border_normal=colors[4],
-                     border_width=borderWith,
-                     margin=gap,
-                     single_border_with=borderWith,
-                     single_margin=gap),
     #layout.MonadWide(),
     #layout.RatioTile(),
     #layout.Tile(),
@@ -165,33 +166,52 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+@lazy.function
+def launch_powermenu(qtile):
+    qtile.cmd_spawn('pavucontrol')
+
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(fmt='[{}]'),
-                widget.GroupBox(use_mouse_wheel=True,
-                                this_current_screen_border=colors[7],
-                                active='#ffffff',
-                                inactive='#ffffff', 
+                widget.CurrentLayoutIcon(foreground=colors[0],
+                                         background=colors[7],
+                                         scale=0.6),
+                widget.GroupBox(background=colors[0],
+                                use_mouse_wheel=True,
+                                this_current_screen_border=colors[1],
+                                active=colors[-1], 
                                 highlight_method='block'),
                 widget.Prompt(),
-                widget.WindowTabs(background=colors[7]),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
+                widget.WindowTabs(fmt='[{}]',
+                                  padding = 5),
+                #widget.Chord(
+                #    chords_colors={
+                #        "launch": ("#ff0000", "#ffffff"),
+                #    },
+                #    name_transform=lambda name: name.upper(),
+                #),
                 #widget.TextBox("default config", name="default"),
                 #widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                widget.KeyboardLayout(configured_keyboards=['se']),
                 widget.Systray(),
-                widget.Battery(),
-                widget.Clock(format="[%a  %b. %d | v.%V | %T ]"),
-                widget.QuickExit(default_text='[x]',
+                widget.PulseVolume(background=colors[5],
+                                   foreground=colors[0],
+                                   mouse_callbacks={'Button3':lazy.spawn('pavucontrol')}),
+                widget.Battery(background=colors[4],
+                               foreground=colors[0]),
+                widget.Clock(background=colors[2],
+                             foreground=colors[0],
+                             format="%a  %b. %d | %T"),
+                widget.QuickExit(background=colors[6],
+                                 foreground=colors[0],
+                                 default_text='[X]',
                                  countdown_format='[{}]'),
             ],
-            24,
+            size=24,
+            border_width=[2,2,2,2],
+            margin=[4,8,0,8],
+            opacity=1,
         ),
     ),
 ]
