@@ -24,7 +24,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from libqtile import bar, layout, widget
+import os
+import subprocess
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -70,7 +72,7 @@ keys = [
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawn("dmenu_run -b"), desc="Spawn dmenu"),
+    Key([mod], "r", lazy.spawn("dmenu_run -i -nb '#3d3d56' -sb '#6a5996' -nf '#ffffff' -sf '#ffffff' -fn 'Ubuntu-14' -b"), desc="Spawn dmenu"),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
 ]
 
@@ -115,33 +117,45 @@ for i in groups:
 
 # Colors
 colors = list(["#ffffff", #background black
-          "#5f4b8b", #pantone purple
-          "#bed390", #pantone green
-          "", #white
-          ""])
+          "#6a5996", #pantone 18-3838 Ultra Violet 1,2,3
+          "#b6cb8f", #pantone 13-0324 Lettuce Green 1
+          "#c6bbce", #pantone 13-3805 Orchid Hush 1
+          "#edc8dc", #pantone 13-3207 Cherry Blossom 1
+          "#e3e091", #pantone 11-0622 Yellow Iris 2
+          "#edada6", #pantone 14-1324 Peach Bud 2
+          "#3d3d56", #pantone 19-3830 Astral Aura 2,3
+          "#e9e2dd" #pantone 11-0604 Gardenia 3
+          ])
 
-gap = 10
+gap = 8
+borderWith = 4
 
 layouts = [
     layout.Columns(border_focus=colors[2],
-                   border_width=4,
-                   border_normal=colors[0],
+                   border_normal=colors[4],
+                   border_width=borderWith,
+                   border_on_single=True,
                    margin=gap),
     #layout.Max(),
     # Try more layouts by unleashing below layouts.
     #layout.Stack(num_stacks=2),
-    layout.Floating(),
+    layout.Floating(border_focus=colors[2],
+                    border_normal=colors[4],
+                    border_width=borderWith),
     #layout.Bsp(),
     # layout.Matrix(),
     layout.MonadTall(border_focus=colors[2],
-                   border_width=4,
-                   border_normal=colors[0]),
+                     border_normal=colors[4],
+                     border_width=borderWith,
+                     margin=gap,
+                     single_border_with=borderWith,
+                     single_margin=gap),
     #layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    #layout.RatioTile(),
+    #layout.Tile(),
+    #layout.TreeTab(),
+    #layout.VerticalTile(),
+    #layout.Zoomy(),
 ]
 
 widget_defaults = dict(
@@ -155,10 +169,14 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
+                widget.CurrentLayout(fmt='[{}]'),
+                widget.GroupBox(use_mouse_wheel=True,
+                                this_current_screen_border=colors[7],
+                                active='#ffffff',
+                                inactive='#ffffff', 
+                                highlight_method='block'),
                 widget.Prompt(),
-                widget.WindowName(),
+                widget.WindowTabs(background=colors[7]),
                 widget.Chord(
                     chords_colors={
                         "launch": ("#ff0000", "#ffffff"),
@@ -168,12 +186,12 @@ screens = [
                 #widget.TextBox("default config", name="default"),
                 #widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
                 widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
+                widget.Battery(),
+                widget.Clock(format="[%a  %b. %d | v.%V | %T ]"),
+                widget.QuickExit(default_text='[x]',
+                                 countdown_format='[{}]'),
             ],
             24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
 ]
@@ -222,3 +240,9 @@ wl_input_rules = None
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+
+#auto start
+@hook.subscribe.startup_once
+def autostart():
+    home = os.path.expanduser('~/.config/qtile/autoStart.sh')
+    subprocess.run([home])
