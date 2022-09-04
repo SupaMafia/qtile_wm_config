@@ -34,6 +34,22 @@ from libqtile.utils import guess_terminal
 mod = "mod4"
 terminal = guess_terminal()
 
+# Colors
+colors = list(["#000000", #background black
+          "#6a5996", #pantone 18-3838 Ultra Violet 1,2,3 background
+          "#b6cb8f", #pantone 13-0324 Lettuce Green 1 focus border
+          "#c6bbce", #pantone 13-3805 Orchid Hush 1 normal border
+          "#edc8dc", #pantone 13-3207 Cherry Blossom 1
+          "#e3e091", #pantone 11-0622 Yellow Iris 2
+          "#edada6", #pantone 14-1324 Peach Bud 2
+          "#3d3d56", #pantone 19-3830 Astral Aura 2,3 bar focus
+          "#e9e2dd", #pantone 11-0604 Gardenia 3
+          "#ffffff" #white
+          ])
+
+gap = 8
+borderWith = 4
+
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -55,6 +71,9 @@ keys = [
     Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([mod], "i", lazy.layout.grow()),
+    Key([mod], "m", lazy.layout.shrink()),
+    Key([mod], "o", lazy.layout.maximize()),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
@@ -72,7 +91,7 @@ keys = [
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawn("dmenu_run -i -nb '#6a5996' -sb '#b6cb8f' -nf '#ffffff' -sf '#000000' -fn 'Ubuntu-12' -b"), desc="Spawn dmenu"),
+    Key([mod], "r", lazy.spawn(f"dmenu_run -i -nb '{colors[1]}' -sb '{colors[2]}' -nf '{colors[-1]}' -sf '{colors[0]}' -fn 'Ubuntu-12' -b"), desc="Spawn dmenu"),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
 ]
 
@@ -113,23 +132,6 @@ for i in groups:
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
-
-
-# Colors
-colors = list(["#000000", #background black
-          "#6a5996", #pantone 18-3838 Ultra Violet 1,2,3 background
-          "#b6cb8f", #pantone 13-0324 Lettuce Green 1 focus border
-          "#c6bbce", #pantone 13-3805 Orchid Hush 1 normal border
-          "#edc8dc", #pantone 13-3207 Cherry Blossom 1 
-          "#e3e091", #pantone 11-0622 Yellow Iris 2
-          "#edada6", #pantone 14-1324 Peach Bud 2
-          "#3d3d56", #pantone 19-3830 Astral Aura 2,3 bar focus 
-          "#e9e2dd", #pantone 11-0604 Gardenia 3
-          "#ffffff" #white
-          ])
-
-gap = 8
-borderWith = 4
 
 layouts = [
     layout.MonadTall(border_focus=colors[2],
@@ -210,7 +212,7 @@ screens = [
             ],
             size=24,
             border_width=[2,2,2,2],
-            margin=[4,8,0,8],
+            margin=[4,gap,0,gap],
             opacity=1,
         ),
     ),
