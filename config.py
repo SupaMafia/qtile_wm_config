@@ -47,8 +47,8 @@ colors = list(["#000000", #background black
           "#ffffff" #white
           ])
 
-gap = 8
-borderWith = 4
+gap = 9
+borderWith = 3
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -91,7 +91,7 @@ keys = [
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawn(f"dmenu_run -i -nb '{colors[1]}' -sb '{colors[2]}' -nf '{colors[-1]}' -sf '{colors[0]}' -fn 'Ubuntu-12' -b"), desc="Spawn dmenu"),
+    Key([mod], "r", lazy.spawn(f"dmenu_run -i -nb '{colors[1]}' -sb '{colors[2]}' -nf '{colors[-1]}' -sf '{colors[0]}' -fn 'sans-14' -b"), desc="Spawn dmenu"),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
 ]
 
@@ -197,17 +197,20 @@ screens = [
                 #widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
                 widget.KeyboardLayout(configured_keyboards=['se']),
                 widget.Systray(),
-                widget.PulseVolume(background=colors[5],
+                widget.PulseVolume(fmt='Vol.: {}',
+                                   background=colors[5],
                                    foreground=colors[0],
                                    mouse_callbacks={'Button3':lazy.spawn('pavucontrol')}),
-                widget.Battery(background=colors[4],
+                widget.Battery(fmt='Bat.: {}',
+                               format='{char} {percent:2.0%} {watt:.2f} W',
+                               background=colors[4],
                                foreground=colors[0]),
                 widget.Clock(background=colors[2],
                              foreground=colors[0],
                              format="%a  %b. %d | %T"),
                 widget.QuickExit(background=colors[6],
                                  foreground=colors[0],
-                                 default_text='[X]',
+                                 default_text='[Quit]',
                                  countdown_format='[{}]'),
             ],
             size=24,
@@ -216,6 +219,27 @@ screens = [
             opacity=1,
         ),
     ),
+    Screen(
+        top=bar.Bar(
+            [
+                widget.CurrentLayoutIcon(foreground=colors[0],
+                                         background=colors[7],
+                                         scale=0.6),
+                widget.GroupBox(background=colors[0],
+                                use_mouse_wheel=True,
+                                this_current_screen_border=colors[1],
+                                active=colors[-1],
+                                highlight_method='block'),
+                widget.Prompt(),
+                widget.WindowTabs(fmt='[{}]',
+                                  padding = 5),       
+            ],
+            size=24,
+            border_width=[2,2,2,2],
+            margin=[4,gap,0,gap],
+            opacity=1,
+            )
+        )
 ]
 
 # Drag floating layouts.
