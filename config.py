@@ -47,8 +47,8 @@ colors = list(["#000000", #background black
           "#ffffff" #white
           ])
 
-gap = 9
-borderWith = 3
+gap = 9 #panel gap
+borderWith = 3 #border size
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -93,6 +93,8 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawn(f"dmenu_run -i -nb '{colors[1]}' -sb '{colors[2]}' -nf '{colors[-1]}' -sf '{colors[0]}' -fn 'sans-14' -b"), desc="Spawn dmenu"),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
+    Key([mod], "x", lazy.spawn("xscreensaver-command -lock")),
+    Key([mod], "b", lazy.hide_show_bar(), desc="Hides the bar"),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -140,19 +142,20 @@ layouts = [
                      margin=gap,
                      single_border_with=borderWith,
                      single_margin=gap),
-    layout.Columns(border_focus=colors[2],
-                   border_normal=colors[4],
-                   border_width=borderWith,
-                   border_on_single=True,
-                   margin=gap),
-    #layout.Max(),
-    # Try more layouts by unleashing below layouts.
+    #layout.Columns(border_focus=colors[2],
+    #               border_normal=colors[4],
+    #               border_width=borderWith,
+    #               border_on_single=True,
+    #               margin=gap),
+    layout.Max(border_focus=colors[2],
+               border_normal=colors[4],
+               border_width=2),
     #layout.Stack(num_stacks=2),
     layout.Floating(border_focus=colors[2],
                     border_normal=colors[4],
                     border_width=borderWith),
     #layout.Bsp(),
-    # layout.Matrix(),
+    #layout.Matrix(),
     #layout.MonadWide(),
     #layout.RatioTile(),
     #layout.Tile(),
@@ -202,21 +205,24 @@ screens = [
                                    foreground=colors[0],
                                    mouse_callbacks={'Button3':lazy.spawn('pavucontrol')}),
                 widget.Battery(fmt='Bat.: {}',
-                               format='{char} {percent:2.0%} {watt:.2f} W',
+                               format='{char} {percent:2.0%}',
                                background=colors[4],
                                foreground=colors[0]),
+                widget.Clock(background=colors[6],
+                             foreground=colors[0],
+                             format="w.%V | %a %b. %d"),
                 widget.Clock(background=colors[2],
                              foreground=colors[0],
-                             format="%a  %b. %d | %T"),
-                widget.QuickExit(background=colors[6],
-                                 foreground=colors[0],
-                                 default_text='[Quit]',
-                                 countdown_format='[{}]'),
+                             format="%T"),
+                #widget.QuickExit(background=colors[6],
+                #                 foreground=colors[0],
+                #                 default_text='[Quit]',
+                #                 countdown_format='[{}]'),
             ],
-            size=24,
+            size=22,
             border_width=[2,2,2,2],
-            margin=[4,gap,0,gap],
-            opacity=1,
+            margin=[2,gap,0,gap],
+            #opacity=1,
         ),
     ),
     Screen(
@@ -255,6 +261,9 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(
+    border_focus=colors[2],
+    border_normal=colors[4],
+    border_width=borderWith,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
