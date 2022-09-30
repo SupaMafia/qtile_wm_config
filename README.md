@@ -5,7 +5,7 @@ Based on Lubuntu 20.04 LTS / 22.04LTS, not tested on Wayland yet.
 #------------------------------------------------------------------------------------  
 Dependencies includes: suckless-tools (dmenu), kitty, dropbox is included to test autoStart  
 
-Recommaned programs: xscreensaver, lxappearance, qt5ct, nitrogen
+recommended programs: xscreensaver, lxappearance, qt5ct, nitrogen
 Note that auto start commands are locates at autoStart.sh, same as config.py  
 OBS: chmod +x autoStart.sh before running 
 
