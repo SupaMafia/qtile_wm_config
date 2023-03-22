@@ -14,7 +14,7 @@ added get pavaudio control by right lick the widget.
 added function mod + b to hide bar.  
 #components are a little messy in the config file
 
-apply config to URxvt: xrdb .Xresources
+#apply config to URxvt: xrdb .Xresources
 
 # ---------------------------------------------------------------------  
 Known Bugs: Text Clock may stop ticking after hiding the bar
