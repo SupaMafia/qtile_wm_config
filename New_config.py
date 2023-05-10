@@ -36,7 +36,7 @@ mod = "mod4"
 
 # Colors
 colors = list(["#000000", #black 00-0000 Black BarBackground
-          "#05475c", #deb_12 00-0000 Blue dmenuBackground
+          "#05475c", #deb_12 00-0000 Blue LayoutBackground dmenuBackground
           "#f07867", #pantone 16-1546 Living_Coral focus_border dmenuFocus
           "#d1899b", #pantone 493C pink normal_border
           "#fae753", #pantone 12-0643 Blazing_Yellow barClock
@@ -186,7 +186,7 @@ screens = [
                 widget.Sep(linewidth=0,
                            padding = 5),
                 widget.CurrentLayoutIcon(foreground=colors[0],
-                                         background=colors[7],
+                                         background=colors[1],
                                          fontsize = fontSize,
                                          scale=0.8),
                 widget.Sep(linewidth=0,
