@@ -40,7 +40,7 @@ Problems with debian 12 as of June 12th 2023:
 3. ```python3 -m venv qtile``` create venv
 4. ```qtile/bin/pip install --no-cache-dir xcffib==1.3.0``` version
 5. ```qtile/bin/pip install --no-cache-dir cairocffi==1.4.0``` version
-6. ```qtile/bin/pip install --no-use-pep517 --no-build-isolation qtile```
+6. ```qtile/bin/pip install --no-use-pep517 --no-build-isolation qtile``` <br>
 if fail, use remove the qtile folder and try again: rm -rf qtile <br>
 then create the desktop entry:
 ```
