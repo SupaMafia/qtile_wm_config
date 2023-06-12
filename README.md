@@ -1,3 +1,6 @@
+# the qtile project
+https://github.com/qtile/qtile
+
 # qtile_wm_config
 Simplistic config for qtile window manager.  
 Based on Lubuntu 20.04 LTS / 22.04LTS, not tested on Wayland yet.  
@@ -18,3 +21,5 @@ added function mod + b to hide bar.
 
 # ---------------------------------------------------------------------  
 Known Bugs: Text Clock may stop ticking after hiding the bar
+
+# 
