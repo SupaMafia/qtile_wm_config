@@ -37,10 +37,7 @@ Problems with debian 12 as of June 12th 2023:
 (install qtile in python3 venv in debian 12)
 1. ```sudo apt install python3-venv``` dependency
 2. ```sudo apt install python3-pip```  dependency
-3. ```python3 -m venv qtile``` create venv
-4. ```qtile/bin/pip install --no-cache-dir xcffib==1.3.0``` version
-5. ```qtile/bin/pip install --no-cache-dir cairocffi==1.4.0``` version
-6. ```qtile/bin/pip install --no-use-pep517 --no-build-isolation qtile``` <br>
+3. follow: https://github.com/qtile/qtile/issues/4290#issuecomment-1593459204  
 if fail, remove the qtile folder and try again: ```rm -rf qtile``` <br>
 then create the desktop entry:
 ```
