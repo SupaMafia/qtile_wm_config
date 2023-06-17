@@ -6,7 +6,7 @@
 !- Version: 0.1
 
 !--------------------xdefauls
-URxvt.font: xft:UbuntuMono Nerd Font Mono:size=11
+URxvt.font: xft:UbuntuMono:size=11
 URxvt.termName: rxvt
 URxvt.scrollBar: false
 URxvt.cursorBlink: true
