@@ -42,7 +42,7 @@ Problems with debian 12 as of June 12th 2023:
 5. ```./pip``` to use pip in the virtual environment
 6. follow: https://github.com/qtile/qtile/issues/4290#issuecomment-1593459204  
 if fail, remove the qtile folder and try again: ```rm -rf qtile``` <br>
-then create the desktop entry:
+then create the desktop entry at ```/usr/share/xsessions```:
 ```
   [Desktop Entry]
   Name=Qtile
