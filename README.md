@@ -35,7 +35,7 @@ Problems with debian 12 as of June 12th 2023:
 3. pavaudio control widget broken
 
 ### solution to problem 1 and 2:
-!! The solution caused pulsevolume widget in qtile to stop working !! 
+!! The solution caused pulsevolume widget in qtile to stop working !! <br>
 (install qtile in python3 venv in debian 12)
 1. ```sudo apt install python3-venv``` dependency
 2. ```sudo apt install python3-pip```  dependency
